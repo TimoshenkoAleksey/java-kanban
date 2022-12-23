@@ -1,29 +1,28 @@
 package tasks;
 
 public class Task {
-    private int taskId;
-    private String status = "NEW"; //enum не проходили, представления смутные, как пользоваться не знаю
+    private int id;
+    private String status = "NEW";
     private String taskName;
     private String taskDescription;
 
-    public Task(int taskId, String taskName, String taskDescription) {
+    public Task(int id, String taskName, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.taskId = taskId;
+        this.id = id;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public int getId() {
+        return id;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -46,6 +45,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return taskId + "," + status + "," + taskName + "," + taskDescription + "\n";
+        return id + "," + status + "," + taskName + "," + taskDescription + "\n";
     }
 }
