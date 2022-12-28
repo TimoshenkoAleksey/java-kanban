@@ -2,7 +2,7 @@ package tasks;
 
 public class Task {
     private int id;
-    private String status = "NEW";
+    private Status status = Status.NEW;
     private String taskName;
     private String taskDescription;
 
@@ -20,10 +20,10 @@ public class Task {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
