@@ -1,5 +1,4 @@
-import manager.Managers;
-import manager.TaskManager;
+import manager.InMemoryTaskManager;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -8,23 +7,20 @@ import tasks.Task;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager inMemoryTaskManager = Managers.getDefault();
-        int task1 = inMemoryTaskManager.createTask(new Task(inMemoryTaskManager.getNewId(), "Задача",
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        int task1 = inMemoryTaskManager.createTask(new Task("Задача",
                 "Создать задачу для тестирования работоспособности приложения"));
-        int task2 = inMemoryTaskManager.createTask(new Task(inMemoryTaskManager.getNewId(), "Футбол",
+        int task2 = inMemoryTaskManager.createTask(new Task("Футбол",
                 "Посмотреть финал чемпионата мира по футболу"));
-        int epic1 = inMemoryTaskManager.createEpic(new Epic(inMemoryTaskManager.getNewId(), "Мечта",
+        int epic1 = inMemoryTaskManager.createEpic(new Epic("Мечта",
                 "Осуществить мечту"));
-        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getNewId(),
-                inMemoryTaskManager.getEpics().get(epic1).getId(),
+        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getEpics().get(epic1).getId(),
                 "Победить зло", "Победить всех злодеев в мире"));
-        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getNewId(),
-                inMemoryTaskManager.getEpics().get(epic1).getId(),
+        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getEpics().get(epic1).getId(),
                 "Лосьон для волос", "Выпустить собствнную линейку лосьонов для волос"));
-        int epic2 = inMemoryTaskManager.createEpic(new Epic(inMemoryTaskManager.getNewId(), "Бегать по утрам",
+        int epic2 = inMemoryTaskManager.createEpic(new Epic("Бегать по утрам",
                 "Начать бегать по утрам каждый день"));
-        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getNewId(),
-                inMemoryTaskManager.getEpics().get(epic2).getId(),
+        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(inMemoryTaskManager.getEpics().get(epic2).getId(),
                 "Дождаться понедельника",
                 "Дождаться понедельника и перенести на следующий понедельник"));
 
@@ -53,11 +49,9 @@ public class Main {
             System.out.println(myTask);
         }
 
-        inMemoryTaskManager.updateTask(subtask1, new Subtask(inMemoryTaskManager.getNewId(),
-                inMemoryTaskManager.getEpics().get(epic1).getId(),
+        inMemoryTaskManager.updateTask(subtask1, new Subtask(inMemoryTaskManager.getEpics().get(epic1).getId(),
                 "Победить зло", "Победить всех злодеев в мире"), Status.DONE);
-        inMemoryTaskManager.updateTask(subtask2, new Subtask(inMemoryTaskManager.getNewId(),
-                        inMemoryTaskManager.getEpics().get(epic1).getId(),
+        inMemoryTaskManager.updateTask(subtask2, new Subtask(inMemoryTaskManager.getEpics().get(epic1).getId(),
                         "Лосьон для волос", "Выпустить собствнную линейку лосьенов для волос"),
                 Status.DONE);
 

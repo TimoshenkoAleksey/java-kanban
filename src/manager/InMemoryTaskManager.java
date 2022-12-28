@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
-    HistoryManager historyManager;
+    private HistoryManager historyManager;
     private HashMap<Integer, Task> tasks;
     private HashMap<Integer, Epic> epics;
     private HashMap<Integer, Subtask> subtasks;
-    private int counterId = 0;
+    private int counterId = 1;
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
@@ -22,37 +22,34 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager = Managers.getDefaultHistory();
     }
 
-    public HashMap<Integer, Task> getTasks() {
-        return tasks;
-    }
-
     public void addTasks(int id, Task task) {
         tasks.put(id, task);
-    }
-
-    @Override
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
     }
 
     public void addEpics(int id, Epic epic) {
         epics.put(id, epic);
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
-    }
-
     public void addSubtasks(int id, Subtask subtask) {
         subtasks.put(id, subtask);
     }
 
-    @Override
+    public HashMap<Integer, Task> getTasks() {
+        return tasks;
+    }
+
+    public HashMap<Integer, Epic> getEpics() {
+        return epics;
+    }
+
+    public HashMap<Integer, Subtask> getSubtasks() {
+        return subtasks;
+    }
+
     public HistoryManager getHistoryManager() {
         return historyManager;
     }
 
-    @Override
     public int getNewId() {
         return counterId++;
     }
@@ -98,21 +95,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int createTask(Task task) {
-        task.setId(counterId);
+        task.setId(getNewId());
         tasks.put(task.getId(), task);
         return task.getId();
     }
 
     @Override
     public int createEpic(Epic epic) {
-        epic.setId(counterId);
+        epic.setId(getNewId());
         epics.put(epic.getId(), epic);
         return epic.getId();
     }
 
     @Override
     public int createSubTask(Subtask subtask) {
-        subtask.setId(counterId);
+        subtask.setId(getNewId());
         epics.get(subtask.getEpicId()).setSubtaskIds(subtask.getId());
         epics.get(subtask.getEpicId()).setStatus(Status.IN_PROGRESS);
         subtasks.put(subtask.getId(), subtask);

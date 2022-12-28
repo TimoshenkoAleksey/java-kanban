@@ -5,6 +5,8 @@ import tasks.Task;
 import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
+    public static final int HISTORY_SIZE = 10;
+
     private ArrayList<Task> taskViewHistory;
 
     public InMemoryHistoryManager() {
@@ -13,7 +15,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (taskViewHistory.size() < 10) {
+        if (taskViewHistory.size() < HISTORY_SIZE) {
             taskViewHistory.add(task);
         } else {
             taskViewHistory.remove(0);

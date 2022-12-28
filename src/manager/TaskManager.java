@@ -6,15 +6,8 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface TaskManager {
-    HashMap<Integer, Epic> getEpics();
-
-    int getNewId();
-
-    HistoryManager getHistoryManager();
-
     ArrayList<Task> getAllTasks();
 
     ArrayList<Epic> getAllEpics();
