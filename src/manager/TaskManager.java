@@ -16,7 +16,7 @@ public interface TaskManager {
 
     void deleteAllTasks();
 
-    String getById(int id);
+    Task getById(int id);
 
     int createTask(Task task);
 
@@ -24,9 +24,11 @@ public interface TaskManager {
 
     int createSubTask(Subtask subtask);
 
-    void updateTask(int id, Task task, Status newStatus);
+    void updateTask(Integer id, Task task, Status newStatus);
 
-    void deleteOneTask(int id);
+    void deleteOneTask(Integer id);
 
     ArrayList<String> getAllSubtasksByEpic(int epicId);
+
+    void checkEpicStatus(int id);
 }
