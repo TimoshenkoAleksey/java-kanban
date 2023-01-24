@@ -1,6 +1,6 @@
-package node;
+package project.model.task.list;
 
-import tasks.Task;
+import project.model.task.Task;
 
 public class Node {
     private Task data;
