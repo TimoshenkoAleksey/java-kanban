@@ -1,9 +1,9 @@
-package manager;
+package project.service;
 
-import tasks.Epic;
-import tasks.Status;
-import tasks.Subtask;
-import tasks.Task;
+import project.model.task.Epic;
+import project.model.task.Status;
+import project.model.task.Subtask;
+import project.model.task.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package manager;
+package project.service;
 
 public class Managers {
 

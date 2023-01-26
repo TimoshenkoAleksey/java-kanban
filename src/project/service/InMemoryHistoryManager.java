@@ -1,6 +1,7 @@
-package manager;
+package project.service;
 
-import tasks.Task;
+import project.model.list.CustomLinkedList;
+import project.model.task.Task;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     public InMemoryHistoryManager() {
         taskViewHistory = new ArrayList<>();
-        customLinkedList = new CustomLinkedList(this);
+        customLinkedList = new CustomLinkedList();
     }
 
     public ArrayList<Task> getTaskViewHistory() {
@@ -33,7 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public ArrayList<Task> getHistory() {
-        customLinkedList.getTasks();
+        customLinkedList.getTasks(taskViewHistory);
         return taskViewHistory;
     }
 }

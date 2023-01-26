@@ -1,4 +1,4 @@
-package project.model.task.list;
+package project.model.list;
 
 import project.model.task.Task;
 

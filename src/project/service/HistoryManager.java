@@ -1,6 +1,6 @@
-package manager;
+package project.service;
 
-import tasks.Task;
+import project.model.task.Task;
 
 import java.util.ArrayList;
 

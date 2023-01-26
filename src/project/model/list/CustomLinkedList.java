@@ -1,20 +1,19 @@
-package project.model.task.list;
+package project.model.list;
 
 import project.model.task.Task;
 import project.service.InMemoryHistoryManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CustomLinkedList {
-    private final InMemoryHistoryManager inMemoryHistoryManager;
     private Node head;
     private Node tail;
 
     private Map<Integer, Node> nodes;
 
-    public CustomLinkedList(InMemoryHistoryManager inMemoryHistoryManager) {
-        this.inMemoryHistoryManager = inMemoryHistoryManager;
+    public CustomLinkedList() {
         nodes = new HashMap<>();
     }
 
@@ -37,10 +36,10 @@ public class CustomLinkedList {
         }
     }
 
-    public void getTasks() {
-        inMemoryHistoryManager.getTaskViewHistory().clear();
+    public void getTasks(ArrayList<Task> taskViewHistory) {
+        taskViewHistory.clear();
         for (Node node : nodes.values())
-            inMemoryHistoryManager.getTaskViewHistory().add(node.getData());
+            taskViewHistory.add(node.getData());
     }
 
     public void removeNode(Node node) {

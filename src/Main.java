@@ -1,9 +1,9 @@
-import manager.HistoryManager;
-import manager.InMemoryTaskManager;
-import tasks.Epic;
-import tasks.Status;
-import tasks.Subtask;
-import tasks.Task;
+import project.service.HistoryManager;
+import project.service.InMemoryTaskManager;
+import project.model.task.Epic;
+import project.model.task.Status;
+import project.model.task.Subtask;
+import project.model.task.Task;
 
 public class Main {
 
