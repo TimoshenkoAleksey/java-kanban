@@ -1,7 +1,6 @@
 package project.model.list;
 
 import project.model.task.Task;
-import project.service.InMemoryHistoryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,10 +35,14 @@ public class CustomLinkedList {
         }
     }
 
-    public void getTasks(ArrayList<Task> taskViewHistory) {
-        taskViewHistory.clear();
-        for (Node node : nodes.values())
-            taskViewHistory.add(node.getData());
+    public ArrayList<Task> getTasks() {
+        ArrayList<Task> result = new ArrayList<>();
+        Node node = head;
+        while (node != null) {
+            result.add(node.getData());
+            node = node.getNext();
+        }
+        return result;
     }
 
     public void removeNode(Node node) {
