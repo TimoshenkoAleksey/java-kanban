@@ -2,13 +2,17 @@ package project.model.task;
 
 public class Task {
     private int id;
-    private Status status = Status.NEW;
+    private Status status;
     private String taskName;
     private String taskDescription;
+    private Type type;
 
-    public Task(String taskName, String taskDescription) {
+
+    public Task(Status status, String taskName, String taskDescription) {
+        this.status = status;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
+        type = Type.TASK;
     }
 
     public int getId() {
@@ -44,6 +48,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + "," + status + "," + taskName + "," + taskDescription + "\n";
+        return id + "," + type + "," + taskName + "," + status + "," + taskDescription + "\n";
     }
 }

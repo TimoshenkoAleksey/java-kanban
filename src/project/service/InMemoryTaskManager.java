@@ -1,5 +1,6 @@
 package project.service;
 
+import project.model.exception.ManagerSaveException;
 import project.model.task.Epic;
 import project.model.task.Status;
 import project.model.task.Subtask;
@@ -96,14 +97,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public int createTask(Task task) {
         task.setId(getNewId());
-        tasks.put(task.getId(), task);
+        addTasks(task.getId(), task);
         return task.getId();
     }
 
     @Override
     public int createEpic(Epic epic) {
         epic.setId(getNewId());
-        epics.put(epic.getId(), epic);
+        addEpics(epic.getId(), epic);
         return epic.getId();
     }
 
@@ -111,7 +112,7 @@ public class InMemoryTaskManager implements TaskManager {
     public int createSubTask(Subtask subtask) {
         subtask.setId(getNewId());
         epics.get(subtask.getEpicId()).setSubtaskIds(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
+        addSubtasks(subtask.getId(), subtask);
         checkEpicStatus(subtask.getEpicId());
         return subtask.getId();
     }

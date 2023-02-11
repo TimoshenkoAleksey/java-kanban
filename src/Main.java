@@ -10,21 +10,21 @@ public class Main {
     public static void main(String[] args) {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         HistoryManager historyManager = inMemoryTaskManager.getHistoryManager();
-        int task1 = inMemoryTaskManager.createTask(new Task("Задача",
+        int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",
                 "Создать задачу для тестирования работоспособности приложения"));
-        int task2 = inMemoryTaskManager.createTask(new Task("Футбол",
+        int task2 = inMemoryTaskManager.createTask(new Task(Status.NEW,"Футбол",
                 "Посмотреть финал чемпионата мира по футболу"));
-        int epic1 = inMemoryTaskManager.createEpic(new Epic("Эпик 1",
+        int epic1 = inMemoryTaskManager.createEpic(new Epic(Status.NEW, "Эпик 1",
                 "Осуществить мечту"));
-        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(epic1,"Подзадача 1 эпика 1",
+        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Подзадача 1 эпика 1",
                 "Победить всех злодеев в мире"));
-        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(epic1,"Лосьон для волос",
+        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Лосьон для волос",
                 "Выпустить собствнную линейку лосьонов для волос"));
-        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(epic1,"Полет на ракете",
+        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Полет на ракете",
                 "Пока ракеты нет, выйти на улицу и взорвать петарду"));
-        int epic2 = inMemoryTaskManager.createEpic(new Epic("Бегать по утрам",
+        int epic2 = inMemoryTaskManager.createEpic(new Epic(Status.NEW, "Бегать по утрам",
                 "Начать бегать по утрам каждый день"));
-        int subtask4 = inMemoryTaskManager.createSubTask(new Subtask(epic2,
+        int subtask4 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic2,
                 "Дождаться понедельника",
                 "Дождаться понедельника и перенести на следующий понедельник"));
 
@@ -49,9 +49,9 @@ public class Main {
             System.out.println(myTask);
         }
 
-        inMemoryTaskManager.updateTask(subtask1, new Subtask(epic1,"Подзадача 1 эпика 1",
+        inMemoryTaskManager.updateTask(subtask1, new Subtask(Status.NEW, epic1,"Подзадача 1 эпика 1",
                 "Победить всех злодеев в мире"), Status.DONE);
-        inMemoryTaskManager.updateTask(subtask2, new Subtask(epic1,"Лосьон для волос",
+        inMemoryTaskManager.updateTask(subtask2, new Subtask(Status.NEW, epic1,"Лосьон для волос",
                         "Выпустить собствнную линейку лосьенов для волос"), Status.DONE);
 
         System.out.println("Задачи:");

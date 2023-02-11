@@ -2,10 +2,12 @@ package project.model.task;
 
 public class Subtask extends Task {
     private int epicId;
+    private Type type;
 
-    public Subtask(int epicId, String taskName, String taskDescription) {
-        super(taskName, taskDescription);
+    public Subtask(Status status, int epicId, String taskName, String taskDescription) {
+        super(status, taskName, taskDescription);
         this.epicId = epicId;
+        type = Type.SUBTASK;
     }
 
     public int getEpicId() {
@@ -14,5 +16,11 @@ public class Subtask extends Task {
 
     public void setEpicId(int epicId) {
         this.epicId = epicId;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + type + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ","
+                + epicId + "\n";
     }
 }
