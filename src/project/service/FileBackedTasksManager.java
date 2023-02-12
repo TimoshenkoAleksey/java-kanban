@@ -13,7 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    File file;
+    private File file;
+    private static final int ID_INDEX = 0; // id,type,name,status,description,epic
+    private static final int TYPE_INDEX = 1;
+    private static final int NAME_INDEX = 2;
+    private static final int STATUS_INDEX = 3;
+    private static final int DESCRIPTION_INDEX = 4;
+    private static final int EPIC_INDEX = 5;
 
     public FileBackedTasksManager(File file) {
         super();
@@ -48,6 +54,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try {
             FileBackedTasksManager fileBackedTasksManager2 = loadFromFile(
                     new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+            fileBackedTasksManager2.save();
             HistoryManager historyManager2 = fileBackedTasksManager2.getHistoryManager();
             System.out.println("Запрос задачи и вывод истории после загрузки из файла:");
             System.out.println("История запросов: \n" + historyManager2.getHistory());
@@ -94,42 +101,45 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public static FileBackedTasksManager loadFromFile(File file) throws IOException {
-        FileBackedTasksManager fileBackedTasksManage = new FileBackedTasksManager(file);
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         String[] stringFile = (Files.readString(Path.of(file.toURI()))).split("\n");
-        for (int i = 1; i < stringFile.length; i++) {
+        for (int i = 1; i < stringFile.length - 1; i++) {
             if (!stringFile[i].isBlank()) {
                 String[] paths = stringFile[i].split(","); // id,type,name,status,description,epic
-                switch (paths[1]) {
-                    case "TASK":
-                        Task task = new Task(Status.valueOf(paths[3]), paths[2], paths[4]);
-                        task.setId(Integer.parseInt(paths[0]));
-                        fileBackedTasksManage.addTasks(task.getId(), task);
+                switch (Type.valueOf(paths[TYPE_INDEX])) {
+                    case TASK:
+                        Task task = new Task(Status.valueOf(paths[STATUS_INDEX]), paths[NAME_INDEX],
+                                paths[DESCRIPTION_INDEX]);
+                        task.setId(Integer.parseInt(paths[ID_INDEX]));
+                        fileBackedTasksManager.addTasks(task.getId(), task);
                         break;
-                    case "EPIC":
-                        Epic epic = new Epic(Status.valueOf(paths[3]), paths[2], paths[4]);
-                        epic.setId(Integer.parseInt(paths[0]));
-                        fileBackedTasksManage.addEpics(epic.getId(), epic);
+                    case EPIC:
+                        Epic epic = new Epic(Status.valueOf(paths[STATUS_INDEX]), paths[NAME_INDEX],
+                                paths[DESCRIPTION_INDEX]);
+                        epic.setId(Integer.parseInt(paths[ID_INDEX]));
+                        fileBackedTasksManager.addEpics(epic.getId(), epic);
                         break;
-                    case "SUBTASK":
-                        Subtask subtask = new Subtask(Status.valueOf(paths[3]), Integer.parseInt(paths[5]), paths[2],
-                                paths[4]);
-                        subtask.setId(Integer.parseInt(paths[0]));
-                        fileBackedTasksManage.addSubtasks(subtask.getId(), subtask);
+                    case SUBTASK:
+                        Subtask subtask = new Subtask(Status.valueOf(paths[STATUS_INDEX]),
+                                Integer.parseInt(paths[EPIC_INDEX]), paths[NAME_INDEX],
+                                paths[DESCRIPTION_INDEX]);
+                        subtask.setId(Integer.parseInt(paths[ID_INDEX]));
+                        fileBackedTasksManager.addSubtasks(subtask.getId(), subtask);
                 }
             } else {
                 for (Integer id : historyFromString(stringFile[stringFile.length - 1])) {
-                    if (fileBackedTasksManage.getTasks().containsKey(id)) {
-                        fileBackedTasksManage.getHistoryManager().add(fileBackedTasksManage.getTasks().get(id));
+                    if (fileBackedTasksManager.getTasks().containsKey(id)) {
+                        fileBackedTasksManager.getHistoryManager().add(fileBackedTasksManager.getTasks().get(id));
                         // add - это метод HistoryManager, который добавляет task в CustomLinkedList.
-                    } else if (fileBackedTasksManage.getEpics().containsKey(id)) {
-                        fileBackedTasksManage.getHistoryManager().add(fileBackedTasksManage.getEpics().get(id));
+                    } else if (fileBackedTasksManager.getEpics().containsKey(id)) {
+                        fileBackedTasksManager.getHistoryManager().add(fileBackedTasksManager.getEpics().get(id));
                     } else {
-                        fileBackedTasksManage.getHistoryManager().add(fileBackedTasksManage.getSubtasks().get(id));
+                        fileBackedTasksManager.getHistoryManager().add(fileBackedTasksManager.getSubtasks().get(id));
                     }
                 }
             }
         }
-        return fileBackedTasksManage;
+        return fileBackedTasksManager;
     }
 
     @Override
