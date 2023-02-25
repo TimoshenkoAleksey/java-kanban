@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final int NAME_INDEX = 2;
     private static final int STATUS_INDEX = 3;
     private static final int DESCRIPTION_INDEX = 4;
-    private static final int EPIC_INDEX = 5;
+    private static final int DURATION_INDEX = 5;
+    private static final int START_TIME_INDEX = 6;
+    private static final int EPIC_INDEX = 7;
 
     public FileBackedTasksManager(File file) {
         super();
@@ -32,15 +35,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         HistoryManager historyManager = fileBackedTasksManager1.getHistoryManager();
 
         int task1 = fileBackedTasksManager1.createTask(new Task(Status.NEW, "Задача",
-                "Создать задачу для тестирования работоспособности приложения"));
+                "Создать задачу для тестирования работоспособности приложения",
+                15L, LocalDateTime.of(2023,02,24,12,0)));
         int task2 = fileBackedTasksManager1.createTask(new Task(Status.NEW, "Футбол",
-                "Посмотреть финал чемпионата мира по футболу"));
+                "Посмотреть финал чемпионата мира по футболу",
+                15L, LocalDateTime.of(2023,02,23,12,0)));
         int epic1 = fileBackedTasksManager1.createEpic(new Epic(Status.NEW, "Эпик 1",
-                "Осуществить мечту"));
-        int subtask1 = fileBackedTasksManager1.createSubTask(new Subtask(Status.NEW, epic1,
-                "Подзадача 1 эпика 1", "Победить всех злодеев в мире"));
+                "Осуществить мечту",0, null));
+        int subtask1 = fileBackedTasksManager1.createSubTask(new Subtask(Status.NEW, epic1, "Подзадача 1 эпика 1",
+                "Победить всех злодеев в мире",
+                15L, LocalDateTime.of(2023,02,23,13,0)));
         int subtask2 = fileBackedTasksManager1.createSubTask(new Subtask(Status.NEW, epic1, "Лосьон для волос",
-                "Выпустить собствнную линейку лосьонов для волос"));
+                "Выпустить собственную линейку лосьонов для волос",
+                15L, LocalDateTime.of(2023,02,23,14,0)));
 
         System.out.println();
         System.out.println("Запрос задачи и вывод истории:");
@@ -71,14 +78,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         allTasks.addAll(getAllSubtasks());
 
         try (BufferedWriter writter = new BufferedWriter(new FileWriter(file))) {
-            writter.write("id,type,name,status,description,epic" + "\n");
+            writter.write("id,type,name,status,description,duration,startTime,epic" + "\n");
             for (Task task : allTasks) {
                 writter.write(task.toString());
             }
             writter.write("\n");
             writter.write(historyToString(getHistoryManager()));
         } catch (IOException e) {
-            throw new ManagerSaveException("Привет, Сергей! :)");
+            throw new ManagerSaveException("<Ошибка в методе save>");
         }
     }
 
@@ -103,26 +110,29 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static FileBackedTasksManager loadFromFile(File file) throws IOException {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         String[] stringFile = (Files.readString(Path.of(file.toURI()))).split("\n");
-        for (int i = 1; i < stringFile.length - 1; i++) {
+        for (int i = 1; i < stringFile.length; i++) {
             if (!stringFile[i].isBlank()) {
                 String[] paths = stringFile[i].split(","); // id,type,name,status,description,epic
                 switch (Type.valueOf(paths[TYPE_INDEX])) {
                     case TASK:
                         Task task = new Task(Status.valueOf(paths[STATUS_INDEX]), paths[NAME_INDEX],
-                                paths[DESCRIPTION_INDEX]);
+                                paths[DESCRIPTION_INDEX], Long.parseLong(paths[DURATION_INDEX]),
+                                (!(paths[START_TIME_INDEX].equals("null")) ? LocalDateTime.parse(paths[START_TIME_INDEX]) : null));
                         task.setId(Integer.parseInt(paths[ID_INDEX]));
                         fileBackedTasksManager.addTasks(task.getId(), task);
                         break;
                     case EPIC:
                         Epic epic = new Epic(Status.valueOf(paths[STATUS_INDEX]), paths[NAME_INDEX],
-                                paths[DESCRIPTION_INDEX]);
+                                paths[DESCRIPTION_INDEX], Long.parseLong(paths[DURATION_INDEX]),
+                                (!(paths[START_TIME_INDEX].equals("null")) ? LocalDateTime.parse(paths[START_TIME_INDEX]) : null));
                         epic.setId(Integer.parseInt(paths[ID_INDEX]));
                         fileBackedTasksManager.addEpics(epic.getId(), epic);
                         break;
                     case SUBTASK:
                         Subtask subtask = new Subtask(Status.valueOf(paths[STATUS_INDEX]),
-                                Integer.parseInt(paths[EPIC_INDEX]), paths[NAME_INDEX],
-                                paths[DESCRIPTION_INDEX]);
+                                Integer.parseInt(paths[EPIC_INDEX]), paths[NAME_INDEX], paths[DESCRIPTION_INDEX],
+                                Long.parseLong(paths[DURATION_INDEX]),
+                                (!(paths[START_TIME_INDEX].equals("null")) ? LocalDateTime.parse(paths[START_TIME_INDEX]) : null));
                         subtask.setId(Integer.parseInt(paths[ID_INDEX]));
                         fileBackedTasksManager.addSubtasks(subtask.getId(), subtask);
                 }
@@ -137,6 +147,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         fileBackedTasksManager.getHistoryManager().add(fileBackedTasksManager.getSubtasks().get(id));
                     }
                 }
+                return fileBackedTasksManager;
             }
         }
         return fileBackedTasksManager;

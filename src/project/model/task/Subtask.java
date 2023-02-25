@@ -1,11 +1,14 @@
 package project.model.task;
 
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private int epicId;
     private Type type;
 
-    public Subtask(Status status, int epicId, String taskName, String taskDescription) {
-        super(status, taskName, taskDescription);
+    public Subtask(Status status, int epicId, String taskName, String taskDescription,
+                   long duration, LocalDateTime startTime) {
+        super(status, taskName, taskDescription, duration, startTime);
         this.epicId = epicId;
         type = Type.SUBTASK;
     }
@@ -21,6 +24,6 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return getId() + "," + type + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ","
-                + epicId + "\n";
+                + getDuration() + "," + getStartTime() + "," + epicId + "\n";
     }
 }

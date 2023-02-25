@@ -7,6 +7,8 @@ import project.model.task.Subtask;
 import project.model.task.Task;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     ArrayList<Task> getAllTasks();
@@ -32,4 +34,8 @@ public interface TaskManager {
     ArrayList<String> getAllSubtasksByEpic(int epicId);
 
     void checkEpicStatus(int id);
+
+    void checkEpicStartAndEndTime(int id);
+
+    List<Task> getSortedTasks();
 }

@@ -5,28 +5,35 @@ import project.model.task.Status;
 import project.model.task.Subtask;
 import project.model.task.Task;
 
+import java.time.LocalDateTime;
+
 public class Main {
 
     public static void main(String[] args) {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         HistoryManager historyManager = inMemoryTaskManager.getHistoryManager();
         int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",
-                "Создать задачу для тестирования работоспособности приложения"));
-        int task2 = inMemoryTaskManager.createTask(new Task(Status.NEW,"Футбол",
-                "Посмотреть финал чемпионата мира по футболу"));
+                "Создать задачу для тестирования работоспособности приложения",
+                15L, LocalDateTime.of(2023,02,24,12,0)));
+        int task2 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Футбол",
+                "Посмотреть финал чемпионата мира по футболу",
+                15L, LocalDateTime.of(2023,02,23,12,0)));
         int epic1 = inMemoryTaskManager.createEpic(new Epic(Status.NEW, "Эпик 1",
-                "Осуществить мечту"));
-        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Подзадача 1 эпика 1",
-                "Победить всех злодеев в мире"));
-        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Лосьон для волос",
-                "Выпустить собствнную линейку лосьонов для волос"));
-        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1,"Полет на ракете",
-                "Пока ракеты нет, выйти на улицу и взорвать петарду"));
+                "Осуществить мечту",0, null));
+        int subtask1 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1, "Подзадача 1 эпика 1",
+                "Победить всех злодеев в мире",
+                15L, LocalDateTime.of(2023,02,23,13,0)));
+        int subtask2 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1, "Лосьон для волос",
+                "Выпустить собственную линейку лосьонов для волос",
+                15L, LocalDateTime.of(2023,02,23,14,0)));
+        int subtask3 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic1, "Полет на ракете",
+                "Пока ракеты нет, выйти на улицу и взорвать петарду",
+                15L, LocalDateTime.of(2023,02,23,15,0)));
         int epic2 = inMemoryTaskManager.createEpic(new Epic(Status.NEW, "Бегать по утрам",
-                "Начать бегать по утрам каждый день"));
-        int subtask4 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic2,
-                "Дождаться понедельника",
-                "Дождаться понедельника и перенести на следующий понедельник"));
+                "Начать бегать по утрам каждый день", 0, null));
+        int subtask4 = inMemoryTaskManager.createSubTask(new Subtask(Status.NEW, epic2,"Дождаться понедельника",
+                "Дождаться понедельника и перенести на следующий понедельник",
+                15L, LocalDateTime.of(2023,02,23,15,0)));
 
 
         for (int i = 1; i < 9; i++) {
@@ -49,10 +56,12 @@ public class Main {
             System.out.println(myTask);
         }
 
-        inMemoryTaskManager.updateTask(subtask1, new Subtask(Status.NEW, epic1,"Подзадача 1 эпика 1",
-                "Победить всех злодеев в мире"), Status.DONE);
-        inMemoryTaskManager.updateTask(subtask2, new Subtask(Status.NEW, epic1,"Лосьон для волос",
-                        "Выпустить собствнную линейку лосьенов для волос"), Status.DONE);
+        inMemoryTaskManager.updateTask(subtask1, new Subtask(Status.NEW, epic1, "Подзадача 1 эпика 1",
+                "Победить всех злодеев в мире",
+                15L, LocalDateTime.of(2023,02,23,13,0)), Status.DONE);
+        inMemoryTaskManager.updateTask(subtask2, new Subtask(Status.NEW, epic1, "Лосьон для волос",
+                "Выпустить собственную линейку лосьонов для волос",
+                15L, LocalDateTime.of(2023,02,23,14,0)), Status.DONE);
 
         System.out.println("Задачи:");
         for (Task myTask : inMemoryTaskManager.getAllTasks()) {
