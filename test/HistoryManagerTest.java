@@ -22,7 +22,6 @@ class HistoryManagerTest {
         historyManager = inMemoryTaskManager.getHistoryManager();
     }
 
-    //add(Task task)
     @Test
     void addOneTask() {
         int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",
@@ -42,7 +41,6 @@ class HistoryManagerTest {
         assertEquals(1, historyManager.getHistory().size());
     }
 
-    //remove(int id)
     @Test
     void removeOneTaskFromEmptyList() {
         int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",
@@ -146,7 +144,6 @@ class HistoryManagerTest {
         assertFalse(historyManager.getHistory().contains(subtask2));
     }
 
-    //getHistory()
     @Test
     void getHistoryFromEmptyList() {
         int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",

@@ -3,12 +3,12 @@ package project.model.task;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
     private Type type;
     private LocalDateTime endTime;
-
-    private ArrayList<Integer> subtaskIds;
+    private List<Subtask> subtaskIds;
 
     public Epic(Status status, String taskName, String taskDescription, long duration, LocalDateTime startTime) {
         super(status, taskName, taskDescription, duration, startTime);
@@ -17,21 +17,45 @@ public class Epic extends Task {
         endTime = null;
     }
 
-    public ArrayList<Integer> getSubtaskIds() {
+    public List<Subtask> getSubtaskIds() {
         return subtaskIds;
     }
 
-    public void setSubtaskIds(int taskId) {
-        this.subtaskIds.add(taskId);
+    public void setSubtaskIds(Subtask subtask) {
+        this.subtaskIds.add(subtask);
+    }
+
+    public void deleteOneSubtask(Subtask subtask) {
+        this.subtaskIds.remove(subtask);
+    }
+
+    public void checkEpicStartAndEndTime() {
+        if (getSubtaskIds().isEmpty()) {
+            setDuration(0);
+            setStartTime(null);
+            endTime = null;
+            return;
+        }
+        long epicDuration = 0;
+        LocalDateTime epicStartTime = LocalDateTime.MAX;
+        LocalDateTime epicEndTime = LocalDateTime.MIN;
+        for (Subtask subtask : getSubtaskIds()) {
+            epicDuration += subtask.getDuration();
+            if (epicStartTime.isAfter(subtask.getStartTime())) {
+                epicStartTime = subtask.getStartTime();
+            }
+            if (epicEndTime.isBefore(subtask.getEndTime())) {
+                epicEndTime = subtask.getEndTime();
+            }
+        }
+        setDuration(epicDuration);
+        setStartTime(epicStartTime);
+        endTime = epicEndTime;
     }
 
     @Override
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 
     @Override

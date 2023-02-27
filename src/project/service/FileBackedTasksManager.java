@@ -31,7 +31,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
         FileBackedTasksManager fileBackedTasksManager1 = new FileBackedTasksManager(
-                new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                new File("src/resources/tasks.csv"));
         HistoryManager historyManager = fileBackedTasksManager1.getHistoryManager();
 
         int task1 = fileBackedTasksManager1.createTask(new Task(Status.NEW, "Задача",
@@ -60,7 +60,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         try {
             FileBackedTasksManager fileBackedTasksManager2 = loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
             fileBackedTasksManager2.save();
             HistoryManager historyManager2 = fileBackedTasksManager2.getHistoryManager();
             System.out.println("Запрос задачи и вывод истории после загрузки из файла:");

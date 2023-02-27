@@ -1,21 +1,18 @@
 package project.service;
 
-import project.model.exception.ManagerSaveException;
 import project.model.task.Epic;
 import project.model.task.Status;
 import project.model.task.Subtask;
 import project.model.task.Task;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 public interface TaskManager {
-    ArrayList<Task> getAllTasks();
+    List<Task> getAllTasks();
 
-    ArrayList<Epic> getAllEpics();
+    List<Epic> getAllEpics();
 
-    ArrayList<Subtask> getAllSubtasks();
+    List<Subtask> getAllSubtasks();
 
     void deleteAllTasks();
 
@@ -31,11 +28,9 @@ public interface TaskManager {
 
     void deleteOneTask(Integer id);
 
-    ArrayList<String> getAllSubtasksByEpic(int epicId);
+    List<String> getAllSubtasksByEpic(int epicId);
 
     void checkEpicStatus(int id);
-
-    void checkEpicStartAndEndTime(int id);
 
     List<Task> getSortedTasks();
 }

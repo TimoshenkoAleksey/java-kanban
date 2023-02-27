@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import project.model.task.Epic;
 import project.model.task.Status;
@@ -8,10 +7,8 @@ import project.service.HistoryManager;
 import project.service.TaskManager;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +17,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
     protected T taskManager;
     protected HistoryManager historyManager;
 
-    //deleteAllTasks()
     @Test
     void deleteAllTasksStandart() {
         int task1 = taskManager.createTask(new Task(Status.NEW, "Задача",
@@ -59,7 +55,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(0, taskManager.getAllSubtasks().size());
     }
 
-    //getById(int id)
     @Test
     void getByIdForTask() {
         int task1 = taskManager.createTask(new Task(Status.NEW, "Задача",
@@ -110,7 +105,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertFalse(historyManager.getHistory().contains(task));
     }
 
-    //createTask(Task task)
     @Test
     void createTaskStandard() {
         Task task = new Task(Status.NEW, "Задача",
@@ -158,7 +152,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(0, taskManager.getAllEpics().size());
     }
 
-    //createSubTask(Subtask subtask)
     @Test
     void createSubTaskStandard() {
         int epic1 = taskManager.createEpic(new Epic(Status.NEW, "Эпик 1",
@@ -199,7 +192,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(-1, subtask1);
     }
 
-    // updateTask(Integer id, Task task, Status newStatus)
     @Test
     void updateTaskForTask() {
         Task task = new Task(Status.NEW, "Задача",
@@ -242,7 +234,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(Status.NEW, subtask.getStatus());
     }
 
-    //deleteOneTask(Integer id)
     @Test
     void deleteOneTaskForTask() {
         int task1 = taskManager.createTask(new Task(Status.NEW, "Задача",
@@ -293,7 +284,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(1, taskManager.getAllSubtasks().size());
     }
 
-    //getAllSubtasksByEpic()
     @Test
     void getAllSubtasksByEpicOneEpicTwoSubtask() {
         int epic1 = taskManager.createEpic(new Epic(Status.NEW, "Эпик 1",
@@ -304,7 +294,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         int subtask2 = taskManager.createSubTask(new Subtask(Status.NEW, epic1, "Лосьон для волос",
                 "Выпустить собственную линейку лосьонов для волос",
                 15L, LocalDateTime.of(2023, 02, 23, 14, 0)));
-        ArrayList<String> list = taskManager.getAllSubtasksByEpic(epic1);
+        List<String> list = taskManager.getAllSubtasksByEpic(epic1);
         assertEquals(2, list.size());
     }
 
@@ -312,7 +302,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getAllSubtasksByEpicEmptyList() {
         int epic1 = taskManager.createEpic(new Epic(Status.NEW, "Эпик 1",
                 "Осуществить мечту", 0, null));
-        ArrayList<String> list = taskManager.getAllSubtasksByEpic(epic1);
+        List<String> list = taskManager.getAllSubtasksByEpic(epic1);
         assertEquals(0, list.size());
     }
 
@@ -326,17 +316,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
         int subtask2 = taskManager.createSubTask(new Subtask(Status.NEW, epic1, "Лосьон для волос",
                 "Выпустить собственную линейку лосьонов для волос",
                 15L, LocalDateTime.of(2023, 02, 23, 14, 0)));
-        ArrayList<String> list = taskManager.getAllSubtasksByEpic(100500);
+        List<String> list = taskManager.getAllSubtasksByEpic(100500);
         assertEquals(0, list.size());
     }
 
-    /*Для расчёта статуса Epic. checkEpicStatus(int id)
-    Граничные условия:
-   a.   Пустой список подзадач.
-   b.   Все подзадачи со статусом NEW.
-   c.    Все подзадачи со статусом DONE.
-   d.    Подзадачи со статусами NEW и DONE.
-   e.    Подзадачи со статусом IN_PROGRESS.*/
     @Test
     void epicStatusCalculationForEmptySubtasksList() {
         Epic epic = new Epic(Status.NEW, "Эпик 1",
@@ -416,13 +399,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(Status.IN_PROGRESS, epic.getStatus());
     }
 
-    //checkEpicStartAndEndTime(int id)
     @Test
     void checkEpicStartAndEndTimeForOneEpicWithoutSubtasks() {
         Epic epic = new Epic(Status.NEW, "Эпик 1",
                 "Осуществить мечту", 0, null);
         int epic1 = taskManager.createEpic(epic);
-        taskManager.checkEpicStartAndEndTime(epic1);
+        epic.checkEpicStartAndEndTime();
         assertNull(epic.getStartTime());
         assertNull(epic.getEndTime());
         assertEquals(0, epic.getDuration());
@@ -461,7 +443,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(subtask1.getDuration() + subtask2.getDuration(), epic.getDuration());
     }
 
-    //TreeSet<Task> getSortedTasks()
     @Test
     void getSortedTasksTest() {
         Task task1 = new Task(Status.NEW, "Задача",

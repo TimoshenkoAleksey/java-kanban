@@ -18,7 +18,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     @BeforeEach
     void BeforeEach() {
         taskManager = new FileBackedTasksManager(new File(
-                "C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                "src/resources/tasks.csv"));
         historyManager = taskManager.getHistoryManager();
     }
 
@@ -33,7 +33,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         FileBackedTasksManager fileBackedTasksManager2;
         try {
             fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
         } catch (IOException e) {
             throw new ManagerSaveException("Какая то ошибка.");
         }
@@ -52,7 +52,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         FileBackedTasksManager fileBackedTasksManager2;
         try {
             fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
         } catch (IOException e) {
             throw new ManagerSaveException("Какая то ошибка.");
         }
@@ -70,7 +70,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         FileBackedTasksManager fileBackedTasksManager2;
         try {
             fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
         } catch (IOException e) {
             throw new ManagerSaveException("Какая то ошибка.");
         }
@@ -86,7 +86,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         FileBackedTasksManager fileBackedTasksManager2;
         try {
             fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
         } catch (IOException e) {
             throw new ManagerSaveException("Какая то ошибка.");
         }
@@ -106,7 +106,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         FileBackedTasksManager fileBackedTasksManager2;
         try {
             fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(
-                    new File("C:\\Users\\Алексей\\dev\\java-kanban\\src\\resources\\tasks.csv"));
+                    new File("src/resources/tasks.csv"));
         } catch (IOException e) {
             throw new ManagerSaveException("Какая то ошибка.");
         }
@@ -114,7 +114,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         assertEquals(0, fileBackedTasksManager2.getHistoryManager().getHistory().size());
     }
 
-    //historyToString(HistoryManager manager)
     @Test
     void historyToStringOneTaskInHistory() {
         int task1 = taskManager.createTask(new Task(Status.NEW, "Задача",
@@ -153,7 +152,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         assertEquals("", str);
     }
 
-    //historyFromString(String value)
     @Test
     void historyFromStringTest() {
         String value = "1,2,3,4,5";

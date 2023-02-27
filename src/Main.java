@@ -35,7 +35,6 @@ public class Main {
                 "Дождаться понедельника и перенести на следующий понедельник",
                 15L, LocalDateTime.of(2023,02,23,15,0)));
 
-
         for (int i = 1; i < 9; i++) {
             System.out.println("Получить по id: \n" + inMemoryTaskManager.getById(1));
             System.out.println("История запросов: \n" + inMemoryTaskManager.getHistoryManager().getHistory());
