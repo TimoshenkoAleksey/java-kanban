@@ -230,6 +230,11 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<Task> (set);
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
     private boolean isNotIntersection(Task task) {
         for (Task treeTask : getSortedTasks()) {
             if (task.getStartTime().isAfter(treeTask.getStartTime())

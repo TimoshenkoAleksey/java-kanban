@@ -19,7 +19,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     void BeforeEach() {
         taskManager = new FileBackedTasksManager(new File(
                 "src/resources/tasks.csv"));
-        historyManager = taskManager.getHistoryManager();
     }
 
     @Test
@@ -57,7 +56,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
             throw new ManagerSaveException("Какая то ошибка.");
         }
         assertEquals(taskManager.getAllTasks().size(), fileBackedTasksManager2.getAllTasks().size());
-        assertEquals(historyManager.getHistory().size(),
+        assertEquals(taskManager.getHistory().size(),
                 fileBackedTasksManager2.getHistoryManager().getHistory().size());
     }
 
@@ -75,7 +74,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
             throw new ManagerSaveException("Какая то ошибка.");
         }
         assertEquals(taskManager.getAllTasks().size(), fileBackedTasksManager2.getAllTasks().size());
-        assertEquals(historyManager.getHistory().size(),
+        assertEquals(taskManager.getHistory().size(),
                 fileBackedTasksManager2.getHistoryManager().getHistory().size());
     }
 
@@ -91,7 +90,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
             throw new ManagerSaveException("Какая то ошибка.");
         }
         assertEquals(taskManager.getAllTasks().size(), fileBackedTasksManager2.getAllTasks().size());
-        assertEquals(historyManager.getHistory().size(),
+        assertEquals(taskManager.getHistory().size(),
                 fileBackedTasksManager2.getHistoryManager().getHistory().size());
     }
 
@@ -120,7 +119,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
                 "Создать задачу для тестирования работоспособности приложения",
                 15L, LocalDateTime.of(2023, 02, 24, 12, 0)));
         taskManager.getById(task1);
-        String str = taskManager.historyToString(historyManager);
+        String str = taskManager.historyToString(taskManager.getHistoryManager());
         assertNotEquals("", str);
         assertNotNull(str);
     }
@@ -135,7 +134,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
                 15L, LocalDateTime.of(2023, 02, 23, 12, 0)));
         taskManager.getById(task1);
         taskManager.getById(task2);
-        String str = taskManager.historyToString(historyManager);
+        String str = taskManager.historyToString(taskManager.getHistoryManager());
         String[] strings = str.split(",");
         assertEquals(2, strings.length);
     }
@@ -148,7 +147,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         int task2 = taskManager.createTask(new Task(Status.NEW, "Футбол",
                 "Посмотреть финал чемпионата мира по футболу",
                 15L, LocalDateTime.of(2023, 02, 23, 12, 0)));
-        String str = taskManager.historyToString(historyManager);
+        String str = taskManager.historyToString(taskManager.getHistoryManager());
         assertEquals("", str);
     }
 

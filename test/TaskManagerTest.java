@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract class TaskManagerTest<T extends TaskManager> {
 
     protected T taskManager;
-    protected HistoryManager historyManager;
 
     @Test
     void deleteAllTasksStandart() {
@@ -59,10 +58,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getByIdForTask() {
         int task1 = taskManager.createTask(new Task(Status.NEW, "Задача",
                 "Создать задачу для тестирования работоспособности приложения",
-                15L, LocalDateTime.of(2023, 02, 24, 12, 0)));
+                15L, LocalDateTime.of(2023, 2, 24, 12, 0)));
         Task task = taskManager.getById(task1);
         assertNotNull(task);
-        assertTrue(historyManager.getHistory().contains(task));
+        assertTrue(taskManager.getHistory().contains(task));
     }
 
     @Test
@@ -71,7 +70,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 "Осуществить мечту", 0, null));
         Task task = taskManager.getById(epic1);
         assertNotNull(task);
-        assertTrue(historyManager.getHistory().contains(task));
+        assertTrue(taskManager.getHistory().contains(task));
     }
 
     @Test
@@ -83,14 +82,14 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 15L, LocalDateTime.of(2023, 02, 23, 13, 0)));
         Task task = taskManager.getById(subtask1);
         assertNotNull(task);
-        assertTrue(historyManager.getHistory().contains(task));
+        assertTrue(taskManager.getHistory().contains(task));
     }
 
     @Test
     void getByIdForEmptyList() {
         Task task = taskManager.getById(100500);
         assertNull(task);
-        assertFalse(historyManager.getHistory().contains(task));
+        assertFalse(taskManager.getHistory().contains(task));
     }
 
     @Test
@@ -102,7 +101,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 15L, LocalDateTime.of(2023, 02, 23, 13, 0)));
         Task task = taskManager.getById(100500);
         assertNull(task);
-        assertFalse(historyManager.getHistory().contains(task));
+        assertFalse(taskManager.getHistory().contains(task));
     }
 
     @Test
@@ -219,7 +218,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateTaskForEmptyList() {
         taskManager.updateTask(100500, null, Status.IN_PROGRESS);
-        assertFalse(historyManager.getHistory().contains(null));
+        assertFalse(taskManager.getHistory().contains(null));
     }
 
     @Test

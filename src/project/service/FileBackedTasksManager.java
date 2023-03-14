@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private File file;
-    private static final int ID_INDEX = 0; // id,type,name,status,description,epic
+    private static final int ID_INDEX = 0;
     private static final int TYPE_INDEX = 1;
     private static final int NAME_INDEX = 2;
     private static final int STATUS_INDEX = 3;
@@ -71,7 +71,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     }
 
-    private void save() {
+    protected void save() {
         List<Task> allTasks = new ArrayList<>();
         allTasks.addAll(getAllTasks());
         allTasks.addAll(getAllEpics());
@@ -85,7 +85,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             writter.write("\n");
             writter.write(historyToString(getHistoryManager()));
         } catch (IOException e) {
-            throw new ManagerSaveException("<Ошибка в методе save>");
+            throw new ManagerSaveException("Ошибка записи в файл.");
         }
     }
 
@@ -153,7 +153,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return fileBackedTasksManager;
     }
 
-    @Override
+    /*@Override
     public void addTasks(int id, Task task) {
         super.addTasks(id, task);
         save();
@@ -169,7 +169,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void addSubtasks(int id, Subtask subtask) {
         super.addSubtasks(id, subtask);
         save();
-    }
+    }*/
 
     @Override
     public Task getById(int id) {
@@ -194,5 +194,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void deleteAllTasks() {
         super.deleteAllTasks();
         save();
+    }
+
+    @Override
+    public int createTask(Task task) {
+        int id = super.createTask(task);
+        save();
+        return id;
+    }
+
+    @Override
+    public int createEpic(Epic epic) {
+        int id = super.createEpic(epic);
+        save();
+        return id;
+    }
+
+    @Override
+    public int createSubTask(Subtask subtask) {
+        int id = super.createSubTask(subtask);
+        save();
+        return id;
     }
 }

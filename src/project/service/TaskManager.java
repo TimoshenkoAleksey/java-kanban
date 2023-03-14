@@ -33,4 +33,6 @@ public interface TaskManager {
     void checkEpicStatus(int id);
 
     List<Task> getSortedTasks();
+
+    List<Task> getHistory();
 }

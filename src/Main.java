@@ -1,3 +1,6 @@
+import project.client.KVTaskClient;
+import project.server.HttpTaskServer;
+import project.server.KVServer;
 import project.service.HistoryManager;
 import project.service.InMemoryTaskManager;
 import project.model.task.Epic;
@@ -5,12 +8,20 @@ import project.model.task.Status;
 import project.model.task.Subtask;
 import project.model.task.Task;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class Main {
 
-    public static void main(String[] args) {
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        HttpTaskServer server = new HttpTaskServer();
+        server.start();
+
+
+
+
+        /*InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         HistoryManager historyManager = inMemoryTaskManager.getHistoryManager();
         int task1 = inMemoryTaskManager.createTask(new Task(Status.NEW, "Задача",
                 "Создать задачу для тестирования работоспособности приложения",
@@ -104,6 +115,7 @@ public class Main {
         System.out.println();
         System.out.println("Удаляем эпик:");
         inMemoryTaskManager.deleteOneTask(epic1);
-        System.out.println(historyManager.getHistory());
+        System.out.println(historyManager.getHistory());*/
+
     }
 }

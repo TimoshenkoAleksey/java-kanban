@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    private Type type;
+
     private LocalDateTime endTime;
     private List<Subtask> subtaskIds;
 
     public Epic(Status status, String taskName, String taskDescription, long duration, LocalDateTime startTime) {
         super(status, taskName, taskDescription, duration, startTime);
         subtaskIds = new ArrayList<>();
-        type = Type.EPIC;
+        setType(Type.EPIC);
         endTime = null;
     }
 
@@ -60,7 +60,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return getId() + "," + type + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ","
+        return getId() + "," + getType() + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ","
                 + getDuration() + "," + getStartTime() + "\n";
     }
 }
