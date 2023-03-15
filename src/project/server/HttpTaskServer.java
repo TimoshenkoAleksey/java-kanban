@@ -21,7 +21,7 @@ public class HttpTaskServer {
     private final TaskManager taskManager;
     private final HttpServer server;
     private final Gson gson;
-    private final int PORT = 8080;
+    private static final int PORT = 8080;
 
     public HttpTaskServer() throws IOException, InterruptedException {
         server = HttpServer.create();

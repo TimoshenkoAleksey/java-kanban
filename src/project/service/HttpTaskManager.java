@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HttpTaskManager extends FileBackedTasksManager {
 
-    private final int PORT = 8078;
+    private static final int PORT = 8078;
     private final String url;
     private final Gson gson;
     private final KVTaskClient client;

@@ -17,9 +17,10 @@ public class KVServer {
     public static final int PORT = 8078;
     private final String apiToken;
     private final HttpServer server;
-    private final Map<String, String> data = new HashMap<>();
+    private final Map<String, String> data;
 
     public KVServer() throws IOException {
+        this.data = new HashMap<>();
         apiToken = generateApiToken();
         server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
         server.createContext("/register", this::register);
